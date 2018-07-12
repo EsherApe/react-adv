@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "email-validator": "^2.0.4",
     "history": "^4.7.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
@@ -11,6 +12,8 @@
     "react-router-redux": "next",
     "react-scripts": "1.1.4",
     "redux": "^4.0.0",
+    "redux-devtools-extension": "^2.13.5",
+    "redux-form": "^7.4.2",
     "redux-logger": "^3.0.6",
     "redux-saga": "^0.16.0",
     "redux-thunk": "^2.3.0"
