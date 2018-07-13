@@ -4,7 +4,7 @@ import SignUpForm from '../auth/SignUpForm';
 import { Route, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { moduleName, signUp } from '../../ducks/auth';
-import Loader from '../Loader';
+import Loader from '../common/Loader';
 
 class AuthPage extends Component {
   render() {
@@ -25,6 +25,6 @@ class AuthPage extends Component {
   handleSignUp = ({email, password}) => this.props.signUp(email, password)
 }
 
-export default connect({
+export default connect(state => ({
   loading: state[moduleName].loading
-}, {signUp})(AuthPage);
+}), {signUp})(AuthPage);
