@@ -27,6 +27,7 @@ export default function reducer(state = new ReducerRecord(), action) {
     case SIGN_UP_REQUEST:
       return state.set('loading', true);
     case SIGN_IN_SUCCESS:
+    case SIGN_UP_SUCCESS:
       return state
         .set('loading', false)
         .set('user', payload.user)
@@ -42,40 +43,17 @@ export default function reducer(state = new ReducerRecord(), action) {
   }
 }
 
-export function signOut() {
-  return {
-    type: SIGN_OUT_REQUEST
-  }
-}
-
-export const signUpSaga = function* () {
-  const action = yield take(SIGN_UP_REQUEST);
-  const auth = firebase.auth();
-
-  while (true) {
-    try {
-      const user = yield call(
-        [auth, auth.createUserWithEmailAndPassword],
-        action.payload.email, action.payload.password
-      );
-      yield put({
-        type: SIGN_UP_SUCCESS,
-        payload: user
-      })
-    } catch (error) {
-      yield put({
-        type: SIGN_UP_ERROR,
-        error
-      })
-    }
-  }
-};
-
 //action creator
 export function signUp(email, password) {
   return {
     type: SIGN_UP_REQUEST,
     payload: {email, password}
+  }
+}
+
+export function signOut() {
+  return {
+    type: SIGN_OUT_REQUEST
   }
 }
 
@@ -91,7 +69,30 @@ export const watchStatusChange = function* () {
       payload: {user}
     })
   }
+};
 
+export const signUpSaga = function* () {
+  const auth = firebase.auth();
+
+  while (true) {
+    const action = yield take(SIGN_UP_REQUEST);
+
+    try {
+      const user = yield call(
+        [auth, auth.createUserWithEmailAndPassword],
+        action.payload.email, action.payload.password
+      );
+      yield put({
+        type: SIGN_UP_SUCCESS,
+        payload: {user}
+      })
+    } catch (error) {
+      yield put({
+        type: SIGN_UP_ERROR,
+        error
+      })
+    }
+  }
 };
 
 export const signOutSaga = function* () {

@@ -8,7 +8,7 @@ import history from '../history';
 import rootSaga from './saga'
 
 const sagaMiddleware = createSagaMiddleware();
-const enhancer = applyMiddleware(sagaMiddleware, routerMiddleware(history), logger);
+const enhancer = applyMiddleware(sagaMiddleware, routerMiddleware(history));
 
 const store = createStore(reducer, composeWithDevTools(enhancer));
 window.store = store;
