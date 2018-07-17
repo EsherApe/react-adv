@@ -1,7 +1,7 @@
 import { appName } from "../config";
 import { Record, List } from 'immutable';
-import {put, call, takeEvery} from 'redux-saga/effects';
-import {generateId} from "./utils";
+import { put, call, takeEvery } from 'redux-saga/effects';
+import { generateId } from "./utils";
 
 //initial state
 const ReducerState = Record({
@@ -43,7 +43,7 @@ export function addPerson(person) {
 }
 
 //side effects with saga
-export const addPersonSaga = function *(action) {
+export const addPersonSaga = function* (action) {
   const id = yield call(generateId);
 
   yield put({
@@ -52,6 +52,6 @@ export const addPersonSaga = function *(action) {
   })
 };
 
-export const saga = function *() {
+export const saga = function* () {
   yield takeEvery(ADD_PERSON_REQUEST, addPersonSaga)
 };

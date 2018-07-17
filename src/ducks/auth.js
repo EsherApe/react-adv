@@ -68,7 +68,7 @@ export function signOut() {
 }
 
 //side effects with saga
-export const watchStatusChange = function* () {
+export const stateChangeSaga = function* () {
   const auth = firebase.auth();
 
   try {
@@ -148,7 +148,7 @@ export const saga = function* () {
   yield all([
     signUpSaga(),
     signInSaga(),
-    watchStatusChange(),
+    stateChangeSaga(),
     takeEvery(SIGN_OUT_REQUEST, signOutSaga)
   ])
 };
