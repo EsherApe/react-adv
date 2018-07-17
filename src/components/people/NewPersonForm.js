@@ -20,20 +20,29 @@ class NewPersonForm extends Component {
   }
 }
 
-function validate({firstName, email}) {
+function validate({firstName, lastName, email}) {
   const errors = {};
-  if(!firstName) errors.firstName = 'first name is required';
+  if(!firstName) errors.firstName = 'First name is required';
+  if(!lastName) errors.firstName = 'Last name is required';
 
   if(!email) {
-    errors.email = 'email is required';
+    errors.email = 'Email is required';
   } else if(!validateEmail(email)) {
-    errors.email = 'email is invalid';
+    errors.email = 'Email is invalid';
   }
 
   return errors
 }
 
+function onSubmitSuccess(result) {
+  let {payload} = result;
+  payload.firstName = '';
+  payload.lastName = '';
+  payload.email = '';
+}
+
 export default reduxForm({
   form: 'person',
-  validate
+  validate,
+  onSubmitSuccess
 })(NewPersonForm);
