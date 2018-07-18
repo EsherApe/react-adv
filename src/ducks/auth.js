@@ -46,7 +46,7 @@ export default function reducer(state = new ReducerRecord(), action) {
   }
 }
 
-//action creator
+//action creators
 export function signUp(email, password) {
   return {
     type: SIGN_UP_REQUEST,
@@ -67,7 +67,7 @@ export function signOut() {
   }
 }
 
-//side effects with saga
+//Saga
 export const stateChangeSaga = function* () {
   const auth = firebase.auth();
 
