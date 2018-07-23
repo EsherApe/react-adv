@@ -33,7 +33,7 @@ export class EventsList extends Component {
     </tr>
   };
 
-  handleRowClick = (uid) => {
+  handleRowClick = (uid) => () =>  {
     const {selectEvent} = this.props;
     console.log(uid);
     selectEvent && selectEvent(uid);
