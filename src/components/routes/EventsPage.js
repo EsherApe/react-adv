@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import EventsList from '../events/EventsList';
+import EventsList from '../events/VirtualizedEventsList';
 
 class EventsPage extends Component {
   render() {
