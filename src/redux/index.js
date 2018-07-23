@@ -5,9 +5,10 @@ import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import history from '../history';
 import rootSaga from './saga';
+import logger from 'redux-logger';
 
 const sagaMiddleware = createSagaMiddleware();
-const enhancer = applyMiddleware(sagaMiddleware, routerMiddleware(history));
+const enhancer = applyMiddleware(sagaMiddleware, routerMiddleware(history), logger);
 
 const store = createStore(reducer, composeWithDevTools(enhancer));
 window.store = store;
