@@ -31,14 +31,15 @@ function validate({firstName, lastName, email}) {
     errors.email = 'Email is invalid';
   }
 
+  console.log(firstName);
   return errors
 }
 
 function onSubmitSuccess(result) {
   let {payload} = result;
-  payload.firstName = '';
-  payload.lastName = '';
-  payload.email = '';
+  payload.firstName = null;
+  payload.lastName = null;
+  payload.email = null;
 }
 
 export default reduxForm({
