@@ -30,8 +30,6 @@ function validate({firstName, lastName, email}) {
   } else if(!validateEmail(email)) {
     errors.email = 'Email is invalid';
   }
-
-  console.log(firstName);
   return errors
 }
 

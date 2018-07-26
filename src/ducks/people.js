@@ -1,6 +1,7 @@
 import { appName } from "../config";
 import { Record, OrderedMap } from 'immutable';
-import { put, call, take, all } from 'redux-saga/effects';
+import { put, call, take, all, fork, cancel, spawn, race } from 'redux-saga/effects';
+import {delay, eventChannel} from 'redux-saga'
 import { fbDataToEntities, generateId } from "./utils";
 import { createSelector } from 'reselect';
 import firebase from 'firebase';
@@ -102,7 +103,46 @@ export const fetchPersonsSaga = function* () {
   }
 };
 
+//create chanel for people
+const createPeopleSocket = () => eventChannel(emmit => {
+  const ref = firebase.database().ref('people');
+  const callback = data => emmit({data});
+  ref.on('value', callback);
+
+  return () => {
+    console.log('canceled');
+    ref.off('value', callback);
+  }
+});
+
+//listen chanel for people and dispatch action to fetch data
+export const realtimeSync = function* () {
+  const chan = yield call(createPeopleSocket);
+  try {
+    while (true) {
+      const {data} = yield take(chan);
+
+      yield put({
+        type: FETCH_ALL_PERSONS_SUCCESS,
+        payload: data.val()
+      })
+    }
+  } finally {
+    yield call([chan, chan.close]);
+    console.log('___', 'cancelled realtime saga');
+  }
+};
+
+//cancel listening for people after some delay
+export const cancellableSync = function* () {
+  yield race({
+    sync: realtimeSync(),
+    delay: delay(10000)
+  })
+};
+
 export const saga = function* () {
+  yield spawn(cancellableSync);
   yield all([
     addPersonSaga(),
     fetchPersonsSaga()

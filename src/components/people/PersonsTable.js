@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Table, Column} from 'react-virtualized';
+import 'react-dnd';
 
 class PersonsTable extends Component {
   render() {
